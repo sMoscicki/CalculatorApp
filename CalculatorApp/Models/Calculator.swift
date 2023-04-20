@@ -1,5 +1,8 @@
 import Foundation
 
+func pow(_ base: Int, _ exp: Int) -> Double {
+    return pow(Double(base), Double(exp))
+}
 
 class Calculator: ObservableObject{
     
@@ -26,13 +29,12 @@ class Calculator: ObservableObject{
         }else if label == "."{
             decimalClicked()
         }else if let value = Double(label){
-            numberPressed(value: value)
+            numberClicked(value: value)
         }else{
-            operatorPressed(op: Operator(label))
+            operatorClicked(op: Operator(label))
         }
         
     }
-    
     
     func setDisplayValue(number: Double){
         
@@ -44,9 +46,7 @@ class Calculator: ObservableObject{
         }
         
     }
-    
-    
-    
+
     func reset(){
         currentOp = nil
         currentNumber = 0
@@ -55,26 +55,15 @@ class Calculator: ObservableObject{
         decimalPlace = 0
     }
     
-    
-    func checkForDivision() -> Bool{
-        
-        if currentOp!.isDivision && (currentNumber == nil && previousNumber == 0 || currentNumber == 9){
-            displayValue = "Error"
-            reset()
-
-            return true
-        }
-        return false
-    }
-
-
     func equalsClicked(){
         
         if currentOp != nil{
             
             decimalPlace = 0
             
-            if checkForDivision() {
+            if currentOp!.isDivision && (currentNumber == nil && previousNumber == 0 || currentNumber == 0){
+                displayValue = "Error"
+                reset()
                 return
             }
             
@@ -119,32 +108,7 @@ class Calculator: ObservableObject{
         
     }
     
-    func numberPressed(value: Double){
-        
-        if equaled {
-            currentNumber = nil
-            previousNumber = nil
-            equaled = false
-        }
-        
-        if currentNumber == nil{
-            currentNumber = value / pow(10, decimalPlace)
-        }else{
-            
-            if decimalPlace == 0{
-                currentNumber = currentNumber! * 10 + value
-            }else{
-                
-                currentNumber = currentNumber! + value / pow(10, decimalPlace)
-                decimalPlace += 1
-            }
-            
-        }
-        
-        setDisplayValue(number: currentNumber!)
-    }
-    
-    func operatorPressed(op: Operator){
+    func operatorClicked(op: Operator){
         
         decimalPlace = 0
         
@@ -152,9 +116,9 @@ class Calculator: ObservableObject{
             
             currentNumber = nil
             equaled = false
+        }
             
             if currentNumber != nil && previousNumber != nil {
-                if checkForDivision(){return}
                 
                 let total = currentOp!.op(previousNumber!, currentNumber!)
                 previousNumber = total
@@ -169,13 +133,32 @@ class Calculator: ObservableObject{
             currentOp = op
             
         }
+    
+    func numberClicked(value: Double){
         
-        
+                if equaled {
+                    currentNumber = nil
+                    previousNumber = nil
+                    equaled = false
+                }
+                
+                
+                if currentNumber == nil {
+                    currentNumber = value / pow(10, decimalPlace)
+                    
+               
+                } else {
+                    
+                    if decimalPlace == 0 {
+                        currentNumber = currentNumber! * 10 + value
+                        
+                    } else {
+                        currentNumber = currentNumber! + value / pow(10, decimalPlace)
+                        decimalPlace += 1
+                    }
+                }
+                
+                setDisplayValue(number: currentNumber!)
+            }
     }
-    
-    func pow(_ base: Int, _ exp: Int) -> Double {
-        return pow(Int(Double(base)), Int(Double(exp)))
-    }
-    
-    
-}
+

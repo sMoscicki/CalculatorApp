@@ -15,11 +15,10 @@ class Operator{
             self.op = (-)
             
         }else if string == String("\u{00f7}") {
-            self.op = (*)
-            
-        }else{
             self.op = (/)
             self.isDivision = true
+        }else{
+            self.op = (*)
         }
         
     }
