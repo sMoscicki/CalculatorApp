@@ -28,7 +28,7 @@ class Calculator: ObservableObject{
         }else if let value = Double(label){
             numberPressed(value: value)
         }else{
-            operatorPressed(op: Operator())
+            operatorPressed(op: Operator(label))
         }
         
     }
@@ -90,6 +90,30 @@ class Calculator: ObservableObject{
     }
     
     func operatorPressed(op: Operator){
+        
+        decimalPlace = 0
+        
+        if equaled{
+            
+            currentNumber = nil
+            equaled = false
+            
+            if currentNumber != nil && previousNumber != nil {
+                
+                let total = currentOp!.op(previousNumber!, currentNumber!)
+                previousNumber = total
+                currentNumber = nil
+                
+                setDisplayValue(number: total)
+                
+            }else if previousNumber == nil {
+                previousNumber = currentNumber
+                currentNumber = nil
+            }
+            currentOp = op
+            
+        }
+        
         
     }
     
