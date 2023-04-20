@@ -54,9 +54,48 @@ class Calculator: ObservableObject{
         equaled = false
         decimalPlace = 0
     }
+    
+    
+    func checkForDivision() -> Bool{
+        
+        if currentOp!.isDivision && (currentNumber == nil && previousNumber == 0 || currentNumber == 9){
+            displayValue = "Error"
+            reset()
+
+            return true
+        }
+        return false
+    }
 
 
     func equalsClicked(){
+        
+        if currentOp != nil{
+            
+            decimalPlace = 0
+            
+            if checkForDivision() {
+                return
+            }
+            
+            if currentNumber != nil || previousNumber != nil {
+                
+                let total = currentOp!.op(previousNumber ?? currentNumber!, currentNumber ?? previousNumber!)
+                
+                if currentNumber == nil{
+                    
+                    currentNumber = previousNumber
+                }
+                
+                previousNumber = total
+                
+                equaled = true
+                
+                setDisplayValue(number: total)
+            }
+            
+            
+        }
         
     }
     
@@ -99,6 +138,7 @@ class Calculator: ObservableObject{
             equaled = false
             
             if currentNumber != nil && previousNumber != nil {
+                if checkForDivision(){return}
                 
                 let total = currentOp!.op(previousNumber!, currentNumber!)
                 previousNumber = total
