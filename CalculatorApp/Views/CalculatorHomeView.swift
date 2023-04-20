@@ -1,10 +1,3 @@
-//
-//  CalculatorHomeView.swift
-//  CalculatorApp
-//
-//  Created by s.Moscicki on 19/04/2023.
-//
-
 import SwiftUI
 
 let darkerGrey = Color(CGColor(gray: 0.1, alpha: 1))
@@ -12,6 +5,9 @@ let darkGrey = Color(CGColor(gray: 0.3, alpha: 1))
 
 
 struct CalculatorHomeView: View {
+    
+    @EnvironmentObject var calculator: Calculator
+    
     var body: some View {
         
         GeometryReader{ geometry in
@@ -20,7 +16,7 @@ struct CalculatorHomeView: View {
                 
                 Spacer()
                 
-                Text("0")
+                Text(calculator.displayValue)
                     .foregroundColor(.white)
                     .font(.system(size: 40))
                     .lineLimit(1)
@@ -47,6 +43,7 @@ struct CalculatorHomeView: View {
 struct CalculatorHomeView_Previews: PreviewProvider {
     static var previews: some View {
         CalculatorHomeView()
+            .environmentObject(Calculator())
             
     }
 }
