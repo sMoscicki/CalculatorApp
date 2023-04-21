@@ -5,7 +5,7 @@ struct CalculatorRawView: View {
     let columnCount = 4
     
         var labels = ["", "", "", ""]
-        var colors: [Color] = [.gray, .gray, .gray, .orange]
+    var colors: [Color] = [.gray, .gray, .gray, .orange]
         
     
     var body: some View {

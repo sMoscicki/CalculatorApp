@@ -25,7 +25,7 @@ struct CalculatorHomeView: View {
                 
                 VStack(spacing: 10){
                     CalculatorRawView(labels: ["CE", "", "", String("\u{00f7}")], colors: [darkGrey, darkGrey, darkGrey, .orange])
-                    CalculatorRawView(labels: ["7", "8", "9", String("\u{00f7}")])
+                    CalculatorRawView(labels: ["7", "8", "9", "*"])
                     CalculatorRawView(labels: ["4", "5", "6", "-"])
                     CalculatorRawView(labels: ["1", "2", "3", "+"])
                     CalculatorRawView(labels: ["0", ".", "", "="])
